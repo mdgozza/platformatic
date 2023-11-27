@@ -36,12 +36,6 @@ test('Creates a Platformatic Service with no typescript', { timeout }, async () 
     match: 'What port do you want to use?',
     do: [keys.ENTER]
   }, {
-    match: 'Do you want to create the github action to deploy',
-    do: [keys.DOWN, keys.ENTER]
-  }, {
-    match: 'Do you want to enable PR Previews in your application',
-    do: [keys.DOWN, keys.ENTER]
-  }, {
     match: 'Do you want to init the git repository',
     do: [keys.DOWN, keys.ENTER] // yes
   }]
@@ -76,12 +70,6 @@ test('Creates a Platformatic Service with typescript', { timeout }, async () => 
     match: 'What port do you want to use?',
     do: [keys.ENTER]
   }, {
-    match: 'Do you want to create the github action to deploy',
-    do: [keys.ENTER] // no
-  }, {
-    match: 'Do you want to enable PR Previews in your application',
-    do: [keys.ENTER] // yes
-  }, {
     match: 'Do you want to init the git repository',
     do: [keys.ENTER] // no
   }]
@@ -98,8 +86,6 @@ test('Creates a Platformatic Service with typescript', { timeout }, async () => 
   equal(await isFileAccessible(join(baseProjectDir, 'routes', 'root.ts')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'plugins', 'example.ts')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'global.d.ts')), true)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-dynamic-workspace-deploy.yml')), true)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-static-workspace-deploy.yml')), true)
   equal(await isFileAccessible(join(baseProjectDir, '.git', 'config')), false)
 })
 
@@ -139,12 +125,6 @@ test('Creates a Platformatic Service in a non empty directory', { timeout }, asy
   }, {
     match: 'What port do you want to use?',
     do: [keys.ENTER]
-  }, {
-    match: 'Do you want to create the github action to deploy',
-    do: [keys.DOWN, keys.ENTER]
-  }, {
-    match: 'Do you want to enable PR Previews in your application',
-    do: [keys.DOWN, keys.ENTER]
   }, {
     match: 'Do you want to init the git repository',
     do: [keys.DOWN, keys.ENTER] // yes

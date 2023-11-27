@@ -3,7 +3,6 @@ import { join } from 'path'
 import { addPrefixToEnv, safeMkdir } from '../utils.mjs'
 import { getTsConfig } from '../get-tsconfig.mjs'
 import { generatePlugins } from '../create-plugins.mjs'
-import { createDynamicWorkspaceGHAction, createStaticWorkspaceGHAction } from '../ghaction.mjs'
 import { createGitRepository } from '../create-git-repository.mjs'
 
 const connectionStrings = {
@@ -348,8 +347,6 @@ export async function createDB (params, logger, currentDir, version) {
     types = true,
     typescript = false,
     connectionString,
-    staticWorkspaceGitHubAction,
-    dynamicWorkspaceGitHubAction,
     runtimeContext,
     initGitRepository
   } = params
@@ -426,13 +423,6 @@ export async function createDB (params, logger, currentDir, version) {
         await writeFile(join(currentDir, 'test', 'routes', 'movies.test.js'), moviesTestJS)
       }
     }
-  }
-
-  if (staticWorkspaceGitHubAction) {
-    await createStaticWorkspaceGHAction(logger, dbEnv, './platformatic.db.json', currentDir, typescript)
-  }
-  if (dynamicWorkspaceGitHubAction) {
-    await createDynamicWorkspaceGHAction(logger, dbEnv, './platformatic.db.json', currentDir, typescript)
   }
 
   if (initGitRepository) {

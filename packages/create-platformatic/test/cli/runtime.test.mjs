@@ -32,12 +32,6 @@ test('Creates a Platformatic Runtime with one Service', { timeout }, async () =>
     match: 'Where would you like to load your services from?',
     do: [keys.ENTER]
   }, {
-    match: 'Do you want to create the github action to deploy',
-    do: [keys.DOWN, keys.ENTER] // no
-  }, {
-    match: 'Do you want to enable PR Previews in your application',
-    do: [keys.DOWN, keys.ENTER] // no
-  }, {
     match: 'Do you want to init the git repository',
     do: [keys.ENTER] // no
   }, {
@@ -68,8 +62,6 @@ test('Creates a Platformatic Runtime with one Service', { timeout }, async () =>
   equal(await isFileAccessible(join(baseProjectDir, '.env.sample')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'platformatic.runtime.json')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'README.md')), true)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-dynamic-workspace-deploy.yml')), false)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-static-workspace-deploy.yml')), false)
   equal(await isFileAccessible(join(baseProjectDir, '.git', 'config')), false)
 
   // Here check the generated service
@@ -96,12 +88,6 @@ test('Creates a Platformatic Runtime with two Services', { timeout }, async () =
   }, {
     match: 'Where would you like to load your services from?',
     do: [keys.ENTER]
-  }, {
-    match: 'Do you want to create the github action to deploy',
-    do: [keys.DOWN, keys.ENTER] // no
-  }, {
-    match: 'Do you want to enable PR Previews in your application',
-    do: [keys.DOWN, keys.ENTER] // no
   }, {
     match: 'Do you want to init the git repository',
     do: [keys.DOWN, keys.ENTER] // yes
@@ -151,8 +137,6 @@ test('Creates a Platformatic Runtime with two Services', { timeout }, async () =
   equal(await isFileAccessible(join(baseProjectDir, '.env.sample')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'platformatic.runtime.json')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'README.md')), true)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-dynamic-workspace-deploy.yml')), false)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-static-workspace-deploy.yml')), false)
   equal(await isFileAccessible(join(baseProjectDir, '.git', 'config')), true)
 
   // Here check the generated services

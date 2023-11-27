@@ -1,7 +1,6 @@
 import { readFile, writeFile, readdir, unlink } from 'fs/promises'
 import { join, relative, isAbsolute } from 'path'
 import * as desm from 'desm'
-import { createDynamicWorkspaceGHAction, createStaticWorkspaceGHAction } from '../ghaction.mjs'
 import { createGitRepository } from '../create-git-repository.mjs'
 
 function generateConfig (version, path, entrypoint) {
@@ -24,8 +23,6 @@ async function createRuntime (params, logger, currentDir = process.cwd(), versio
     servicesDir,
     entrypoint,
     entrypointPort,
-    staticWorkspaceGitHubAction,
-    dynamicWorkspaceGitHubAction,
     initGitRepository
   } = params
   if (!version) {
@@ -36,21 +33,13 @@ async function createRuntime (params, logger, currentDir = process.cwd(), versio
   const config = generateConfig(version, path, entrypoint)
   await writeFile(join(currentDir, 'platformatic.runtime.json'), JSON.stringify(config, null, 2))
   logger.info('Configuration file platformatic.runtime.json successfully created.')
-  let runtimeEnv = {}
   if (servicesDir && entrypoint && entrypointPort) {
     const servicesDirFullPath = isAbsolute(servicesDir)
       ? servicesDir
       : join(currentDir, servicesDir)
 
     await updateServerConfig(currentDir)
-    runtimeEnv = await mergeEnvFiles(currentDir, servicesDirFullPath, entrypointPort)
-  }
-
-  if (staticWorkspaceGitHubAction) {
-    await createStaticWorkspaceGHAction(logger, runtimeEnv, './platformatic.runtime.json', currentDir, false)
-  }
-  if (dynamicWorkspaceGitHubAction) {
-    await createDynamicWorkspaceGHAction(logger, runtimeEnv, './platformatic.runtime.json', currentDir, false)
+    await mergeEnvFiles(currentDir, servicesDirFullPath, entrypointPort)
   }
 
   if (initGitRepository) {

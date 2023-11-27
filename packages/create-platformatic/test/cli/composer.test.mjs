@@ -36,12 +36,6 @@ test('Creates a Platformatic Composer', { timeout }, async () => {
     match: 'Do you want to use TypeScript',
     do: [keys.DOWN, keys.ENTER] // no
   }, {
-    match: 'Do you want to create the github action to deploy',
-    do: [keys.DOWN, keys.ENTER] // no
-  }, {
-    match: 'Do you want to enable PR Previews in your application',
-    do: [keys.DOWN, keys.ENTER] // no
-  }, {
     match: 'Do you want to init the git repository',
     do: [keys.ENTER] // no
   }]
@@ -58,8 +52,6 @@ test('Creates a Platformatic Composer', { timeout }, async () => {
   equal(await isFileAccessible(join(baseProjectDir, 'routes', 'root.js')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'routes', 'root.ts')), false)
   equal(await isFileAccessible(join(baseProjectDir, 'plugins', 'example.js')), true)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-dynamic-workspace-deploy.yml')), false)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-static-workspace-deploy.yml')), false)
   equal(await isFileAccessible(join(baseProjectDir, '.git', 'config')), false)
 })
 
@@ -78,12 +70,6 @@ test('Creates a Platformatic Composer with typescript support adn GitHub Actions
     match: 'Do you want to use TypeScript',
     do: [keys.ENTER] // yes
   }, {
-    match: 'Do you want to create the github action to deploy',
-    do: [keys.ENTER] // yes
-  }, {
-    match: 'Do you want to enable PR Previews in your application',
-    do: [keys.ENTER] // yes
-  }, {
     match: 'Do you want to init the git repository',
     do: [keys.DOWN, keys.ENTER] // yes
   }]
@@ -100,7 +86,5 @@ test('Creates a Platformatic Composer with typescript support adn GitHub Actions
   equal(await isFileAccessible(join(baseProjectDir, 'routes', 'root.ts')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'tsconfig.json')), true)
   equal(await isFileAccessible(join(baseProjectDir, 'plugins', 'example.ts')), true)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-dynamic-workspace-deploy.yml')), true)
-  equal(await isFileAccessible(join(baseProjectDir, '.github', 'workflows', 'platformatic-static-workspace-deploy.yml')), true)
   equal(await isFileAccessible(join(baseProjectDir, '.git', 'config')), true)
 })

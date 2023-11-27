@@ -2,7 +2,6 @@ import { readFile, writeFile, appendFile } from 'fs/promises'
 import { join } from 'path'
 import * as desm from 'desm'
 import { generatePlugins } from '../create-plugins.mjs'
-import { createDynamicWorkspaceGHAction, createStaticWorkspaceGHAction } from '../ghaction.mjs'
 import { getTsConfig } from '../get-tsconfig.mjs'
 import { createGitRepository } from '../create-git-repository.mjs'
 
@@ -92,8 +91,6 @@ async function createComposer (
     servicesToCompose = [],
     runtimeContext,
     typescript,
-    staticWorkspaceGitHubAction,
-    dynamicWorkspaceGitHubAction,
     initGitRepository
   } = params
 
@@ -127,13 +124,6 @@ async function createComposer (
 
     // TODO: global.d.ts is needed to compile the project. Still need to populate it
     await writeFile(join(currentDir, 'global.d.ts'), '')
-  }
-
-  if (staticWorkspaceGitHubAction) {
-    await createStaticWorkspaceGHAction(logger, composerEnv, './platformatic.service.json', currentDir, typescript)
-  }
-  if (dynamicWorkspaceGitHubAction) {
-    await createDynamicWorkspaceGHAction(logger, composerEnv, './platformatic.service.json', currentDir, typescript)
   }
 
   if (initGitRepository) {

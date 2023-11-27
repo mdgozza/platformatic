@@ -65,23 +65,6 @@ const createPlatformaticComposer = async (_args, opts) => {
     }
   }
 
-  if (!opts.skipGitHubActions) {
-    toAsk.push({
-      type: 'list',
-      name: 'staticWorkspaceGitHubAction',
-      message: 'Do you want to create the github action to deploy this application to Platformatic Cloud?',
-      default: true,
-      choices: [{ name: 'yes', value: true }, { name: 'no', value: false }]
-    },
-    {
-      type: 'list',
-      name: 'dynamicWorkspaceGitHubAction',
-      message: 'Do you want to enable PR Previews in your application?',
-      default: true,
-      choices: [{ name: 'yes', value: true }, { name: 'no', value: false }]
-    })
-  }
-
   if (!opts.skipGitRepository) {
     toAsk.push(getInitGitRepository())
   }

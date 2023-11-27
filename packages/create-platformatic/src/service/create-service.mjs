@@ -4,7 +4,6 @@ import * as desm from 'desm'
 import { addPrefixToEnv } from '../utils.mjs'
 import { getTsConfig } from '../get-tsconfig.mjs'
 import { generatePlugins } from '../create-plugins.mjs'
-import { createDynamicWorkspaceGHAction, createStaticWorkspaceGHAction } from '../ghaction.mjs'
 import { createGitRepository } from '../create-git-repository.mjs'
 
 const TS_OUT_DIR = 'dist'
@@ -72,8 +71,6 @@ async function createService (params, logger, currentDir = process.cwd(), versio
     hostname,
     port,
     typescript = false,
-    staticWorkspaceGitHubAction,
-    dynamicWorkspaceGitHubAction,
     runtimeContext,
     initGitRepository
   } = params
@@ -107,15 +104,6 @@ async function createService (params, logger, currentDir = process.cwd(), versio
     logger.info(
       `Typescript configuration file ${tsConfigFileName} successfully created.`
     )
-  }
-
-  if (!isRuntimeContext) {
-    if (staticWorkspaceGitHubAction) {
-      await createStaticWorkspaceGHAction(logger, serviceEnv, './platformatic.service.json', currentDir, typescript)
-    }
-    if (dynamicWorkspaceGitHubAction) {
-      await createDynamicWorkspaceGHAction(logger, serviceEnv, './platformatic.service.json', currentDir, typescript)
-    }
   }
 
   await generatePlugins(logger, currentDir, typescript, 'service')
