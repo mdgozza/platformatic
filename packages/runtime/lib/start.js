@@ -49,6 +49,7 @@ async function startWithConfig (configManager, env = process.env) {
 
   let exited = null
   worker.on('exit', () => {
+    process._rawDebug('start.js: worker.on(exit)')
     configManager.fileWatcher?.stopWatching()
     if (typeof exited === 'function') {
       exited()
@@ -70,16 +71,17 @@ async function startWithConfig (configManager, env = process.env) {
       worker.postMessage({ signal: 'SIGUSR2' })
     })
 
-    closeWithGrace((event, cb) => {
-      worker.postMessage(event)
-      exited = cb
-    })
-
     /* c8 ignore next 3 */
     configManager.on('update', () => {
       // TODO(cjihrig): Need to clean up and restart the worker.
     })
   }
+
+  closeWithGrace((event, cb) => {
+    process._rawDebug(`start.js: closeWithGrace: ${JSON.stringify(event)}`)
+    worker.postMessage(event)
+    exited = cb
+  })
 
   await once(worker, 'message') // plt:init
 

@@ -45,12 +45,6 @@ class RuntimeApi {
 
     setGlobalDispatcher(globalDispatcher)
     this.#dispatcher = globalDispatcher
-
-    process.on('SIGINT', async () => {
-      console.log('closing dispatcher on SIGINT')
-      await this.#dispatcher.close()
-      console.log('closed dispatcher on SIGINT')
-    })
   }
 
   async startListening (parentPort) {
@@ -90,7 +84,7 @@ class RuntimeApi {
     }
 
     if (this.#dispatcher) {
-      console.log('closing dispatcher in handleProcessLevelEvent')
+      process._rawDebug('closing dispatcher in handleProcessLevelEvent')
       await this.#dispatcher.close()
     }
 

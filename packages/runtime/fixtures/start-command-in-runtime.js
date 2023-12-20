@@ -10,16 +10,10 @@ class FakeFinalizationRegistry {
 }
 
 global.FinalizationRegistry = FakeFinalizationRegistry
-
-const oldFetch = global.fetch
-function fakefetch (...args) {
-  process._rawDebug('fakefetch', args, new Error().stack)
-  return oldFetch(...args)
-}
 */
 
 const assert = require('node:assert')
-const { request, setGlobalDispatcher, Agent } = require('undici')
+const { request, setGlobalDispatcher, Agent, getGlobalDispatcher } = require('undici')
 const { startCommand } = require('..')
 
 setGlobalDispatcher(new Agent({
@@ -38,6 +32,7 @@ async function main () {
   // Consume the body so the service can end
   await res.body.text()
   process._rawDebug('start-command-in-runtime.js: exiting')
+  await getGlobalDispatcher().close()
   process.exit(42)
 }
 

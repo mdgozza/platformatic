@@ -13,7 +13,8 @@ setTimeout(() => {
   console.log('-----------------start-5 - end')
 }, 40000).unref()
 
-test('handles uncaught exceptions with db app', { timeout: 60000 }, async (t) => {
+// Skip this test until https://github.com/nodejs/node/issues/49344 is fixed
+test('handles uncaught exceptions with db app', { timeout: 60000, skip: true }, async (t) => {
   console.log('start-5 1 started')
   // Test for https://github.com/platformatic/platformatic/issues/1193
   const scriptFile = join(fixturesDir, 'start-command-in-runtime.js')
@@ -29,7 +30,7 @@ test('handles uncaught exceptions with db app', { timeout: 60000 }, async (t) =>
 
   t.after(async () => {
     console.log('close start-5.1')
-    child.kill('SIGINT')
+    child.kill('SIGKILL')
     console.log('close start-5.2')
   })
 
