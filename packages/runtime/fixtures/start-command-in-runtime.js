@@ -9,7 +9,6 @@ class FakeFinalizationRegistry {
   unregister () {}
 }
 
-
 global.FinalizationRegistry = FakeFinalizationRegistry
 
 const oldFetch = global.fetch
