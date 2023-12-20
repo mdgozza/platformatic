@@ -6,6 +6,7 @@ import desm from 'desm'
 import { request } from 'undici'
 import { start } from './helper.mjs'
 import { on } from 'node:events'
+import { setTimeout as sleep } from 'node:timers/promises'
 
 import why from 'why-is-node-running'
 setTimeout(() => {
@@ -65,6 +66,8 @@ test('watches CommonJS files with hotreload on a single service', { timeout: 600
   t.after(() => child.kill('SIGINT'))
 
   console.log('watch-2 1.8')
+
+  await sleep(2000)
 
   await writeFile(cjsPluginFilePath, createCjsLoggingPlugin('v2', true))
 
