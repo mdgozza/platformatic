@@ -99,7 +99,7 @@ class RuntimeApiClient extends EventEmitter {
   async #exitHandler () {
     this.#exitCode = undefined
     return once(this.worker, 'exit').then((msg) => {
-      console.log('worker on exit was called')
+      console.log('>>> worker exited')
       this.#exitCode = msg[0]
       return msg
     })
